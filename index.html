@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>برنامه دارویی هفته اول</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff80ab">
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      padding: 15px;
+      line-height: 2;
+      margin: 0;
+      font-size: 1.1em;
+    }
+    h1 {
+      text-align: center;
+      color: #ff80ab;
+      font-size: 2em;
+      margin-bottom: 40px;
+    }
+    h2 {
+      text-align: center;
+      margin: 30px 0 15px;
+      font-size: 1.5em;
+    }
+    .day-box {
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      background-color: #2c2c2c;
+      font-size: 1em;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: 12px;
+      text-align: center;
+      color: #fff;
+    }
+    th {
+      background-color: #333;
+      font-size: 1em;
+    }
+    td input[type="checkbox"] {
+      transform: scale(1.4);
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        font-size: 1em;
+      }
+      h1 {
+        font-size: 1.6em;
+      }
+      h2 {
+        font-size: 1.3em;
+      }
+      th, td {
+        font-size: 0.95em;
+      }
+    }
+  </style>
+</head>
+<body>
+<h1>برنامه دارویی هفته اول</h1>
+<script>
+  const days = ["پنج‌شنبه ۱۲ تیر","جمعه ۱۳ تیر","شنبه ۱۴ تیر","یک‌شنبه ۱۵ تیر","دوشنبه ۱۶ تیر","سه‌شنبه ۱۷ تیر","چهارشنبه ۱۸ تیر","پنج‌شنبه ۱۹ تیر"];
+  const betamethasoneHours = ["۰۰:۰۰","۰۲:۰۰","۰۴:۰۰","۰۶:۰۰","۰۸:۰۰","۱۰:۰۰","۱۲:۰۰","۱۴:۰۰","۱۶:۰۰","۱۸:۰۰","۲۰:۰۰","۲۲:۰۰"];
+  const chloramphenicolHours = ["۰۰:۰۰","۰۶:۰۰","۱۲:۰۰","۱۸:۰۰"];
+  const homatropineHours = ["۰۶:۰۰","۱۴:۰۰","۲۲:۰۰"];
+  let html = "";
+  days.forEach((day, dayIndex) => {
+    html += `<div class="day-box">
+      <h2 style="color: hsl(${dayIndex * 40}, 80%, 70%)">${day}</h2>
+      <div class="table-wrapper">
+      <table><thead><tr>
+        <th>ساعت</th><th>بتامتازون</th><th>کلرامفنیکل</th><th>هماتروپین</th>
+      </tr></thead><tbody>`;
+    betamethasoneHours.forEach((hour, rowIndex) => {
+      const bId = `b_${dayIndex}_${rowIndex}`;
+      const cId = `c_${dayIndex}_${rowIndex}`;
+      const hId = `h_${dayIndex}_${rowIndex}`;
+      html += `<tr><td>${hour}</td>
+        <td><input type="checkbox" id="${bId}"></td>
+        <td>${chloramphenicolHours.includes(hour) ? `<input type="checkbox" id="${cId}">` : ''}</td>
+        <td>${homatropineHours.includes(hour) ? `<input type="checkbox" id="${hId}">` : ''}</td>
+      </tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+  });
+  document.write(html);
+  window.onload = () => {
+    document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+      const saved = localStorage.getItem(checkbox.id);
+      checkbox.checked = saved === "true";
+      checkbox.addEventListener("change", () => {
+        localStorage.setItem(checkbox.id, checkbox.checked);
+      });
+    });
+  };
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(() => console.log("SW registered"));
+  }
+</script>
+</body>
+</html>
