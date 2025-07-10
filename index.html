@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>برنامه دارویی هفته اول</title>
+  <title>برنامه دارویی هفته دوم</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#ff80ab">
@@ -75,33 +75,39 @@
   </style>
 </head>
 <body>
-<h1>برنامه دارویی هفته اول</h1>
+<h1>برنامه دارویی هفته دوم</h1>
 <script>
-  const days = ["پنج‌شنبه ۱۲ تیر","جمعه ۱۳ تیر","شنبه ۱۴ تیر","یک‌شنبه ۱۵ تیر","دوشنبه ۱۶ تیر","سه‌شنبه ۱۷ تیر","چهارشنبه ۱۸ تیر","پنج‌شنبه ۱۹ تیر"];
-  const betamethasoneHours = ["۰۰:۰۰","۰۲:۰۰","۰۴:۰۰","۰۶:۰۰","۰۸:۰۰","۱۰:۰۰","۱۲:۰۰","۱۴:۰۰","۱۶:۰۰","۱۸:۰۰","۲۰:۰۰","۲۲:۰۰"];
+  const days = ["پنج‌شنبه ۱۹ تیر","جمعه ۲۰ تیر","شنبه ۲۱ تیر","یک‌شنبه ۲۲ تیر","دوشنبه ۲۳ تیر","سه‌شنبه ۲۴ تیر","چهارشنبه ۲۵ تیر"];
+  const betamethasoneHours = ["۰۶:۰۰","۱۰:۰۰","۱۴:۰۰","۱۸:۰۰","۲۲:۰۰","۰۲:۰۰"];
   const chloramphenicolHours = ["۰۰:۰۰","۰۶:۰۰","۱۲:۰۰","۱۸:۰۰"];
   const homatropineHours = ["۰۶:۰۰","۱۴:۰۰","۲۲:۰۰"];
   let html = "";
   days.forEach((day, dayIndex) => {
     html += `<div class="day-box">
-      <h2 style="color: hsl(${dayIndex * 40}, 80%, 70%)">${day}</h2>
+      <h2 style="color: hsl(${dayIndex * 45}, 80%, 70%)">${day}</h2>
       <div class="table-wrapper">
       <table><thead><tr>
         <th>ساعت</th><th>بتامتازون</th><th>کلرامفنیکل</th><th>هماتروپین</th>
       </tr></thead><tbody>`;
-    betamethasoneHours.forEach((hour, rowIndex) => {
-      const bId = `b_${dayIndex}_${rowIndex}`;
-      const cId = `c_${dayIndex}_${rowIndex}`;
-      const hId = `h_${dayIndex}_${rowIndex}`;
+
+    // لیست همه ساعات نمایش (سرتاسری)
+    const allHours = ["۰۰:۰۰","۰۲:۰۰","۰۶:۰۰","۱۰:۰۰","۱۲:۰۰","۱۴:۰۰","۱۸:۰۰","۲۲:۰۰"];
+    allHours.forEach((hour, rowIndex) => {
+      const bId = `b2_${dayIndex}_${rowIndex}`;
+      const cId = `c2_${dayIndex}_${rowIndex}`;
+      const hId = `h2_${dayIndex}_${rowIndex}`;
       html += `<tr><td>${hour}</td>
-        <td><input type="checkbox" id="${bId}"></td>
+        <td>${betamethasoneHours.includes(hour) ? `<input type="checkbox" id="${bId}">` : ''}</td>
         <td>${chloramphenicolHours.includes(hour) ? `<input type="checkbox" id="${cId}">` : ''}</td>
         <td>${homatropineHours.includes(hour) ? `<input type="checkbox" id="${hId}">` : ''}</td>
       </tr>`;
     });
+
     html += `</tbody></table></div></div>`;
   });
+
   document.write(html);
+
   window.onload = () => {
     document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
       const saved = localStorage.getItem(checkbox.id);
